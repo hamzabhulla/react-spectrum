@@ -101,7 +101,12 @@ export function useCalendarYearPicker(
       formatted: formatter.format(itemDate.toDate(state.timeZone))
     });
 
-    date = date.add({years: 1});
+    let nextDate = date.add({years: 1});
+    // Stop when date arithmetic reaches the calendar's upper bound (e.g. Gregorian year 9999).
+    if (nextDate.compare(date) <= 0) {
+      break;
+    }
+    date = nextDate;
   }
 
   let {locale} = useLocale();
