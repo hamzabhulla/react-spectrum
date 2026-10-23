@@ -997,7 +997,10 @@ describe('Calendar', () => {
     ).toEqual(['2026']);
 
     tree.rerender(
-      <YearPickerExample calendarProps={{defaultFocusedValue: new CalendarDate(9999, 12, 1)}} />
+      <YearPickerExample
+        key="max-supported-year"
+        calendarProps={{defaultFocusedValue: new CalendarDate(9999, 12, 1)}}
+      />
     );
     expect(
       within(tree.getByLabelText('year'))
