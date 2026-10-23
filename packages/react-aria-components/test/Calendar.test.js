@@ -911,7 +911,7 @@ describe('Calendar', () => {
     ).toEqual(['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan']);
   });
 
-  it('supports minValue and maxValue', async () => {
+  it('supports minValue and maxValue, including the maximum supported year', async () => {
     function YearPickerExample({calendarProps, yearPickerProps}) {
       return (
         <Calendar {...calendarProps} aria-label="Appointment date">
@@ -995,5 +995,14 @@ describe('Calendar', () => {
         .getAllByRole('option')
         .map(o => o.textContent)
     ).toEqual(['2026']);
+
+    tree.rerender(
+      <YearPickerExample calendarProps={{defaultFocusedValue: new CalendarDate(9999, 12, 1)}} />
+    );
+    expect(
+      within(tree.getByLabelText('year'))
+        .getAllByRole('option')
+        .map(o => o.textContent)
+    ).toEqual(Array.from({length: 11}, (_, i) => String(9989 + i)));
   });
 });
